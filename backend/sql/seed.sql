@@ -16,3 +16,10 @@ INSERT INTO `ticket_tier` (`concert_id`, `name`, `price`, `total_stock`, `stock`
 (1, '内场VIP', 1280.00, 100, 100, 1),
 (1, '看台A区', 680.00, 500, 500, 2),
 (1, '看台B区', 380.00, 1000, 1000, 4);
+
+-- 演示用户（密码均为 123456，BCrypt 哈希）
+INSERT INTO `user` (`username`, `password`, `phone`, `id_card`) VALUES
+('alice', '$2a$10$2zOFYwKT0svKG7f.mOrxHejvobtEoNBj3MVMH6qrdrOcrsnLYilGS', '13800138000', '110101199001011234'),
+('demo',  '$2a$10$2zOFYwKT0svKG7f.mOrxHejvobtEoNBj3MVMH6qrdrOcrsnLYilGS', '13900139000', '110101199505055678')
+ON DUPLICATE KEY UPDATE `phone` = VALUES(`phone`);
+

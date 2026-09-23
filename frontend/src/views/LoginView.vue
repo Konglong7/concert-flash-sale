@@ -31,6 +31,20 @@
       <button class="grab-btn auth-submit" :disabled="loading" @click="submit">
         {{ loading ? '请稍候…' : (isRegister ? '创建账号' : '登录') }}
       </button>
+
+      <div v-if="!isRegister" class="demo-account-box">
+        <div class="demo-title">🔑 快速体验演示账号</div>
+        <div class="demo-items">
+          <button type="button" class="demo-pill" @click="fillDemo('alice', '123456')">
+            <span>alice / 123456</span>
+            <span class="action">一键填入</span>
+          </button>
+          <button type="button" class="demo-pill" @click="fillDemo('demo', '123456')">
+            <span>demo / 123456</span>
+            <span class="action">一键填入</span>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -45,6 +59,12 @@ const router = useRouter()
 const isRegister = ref(false)
 const loading = ref(false)
 const form = reactive({ username: '', password: '', phone: '', idCard: '' })
+
+function fillDemo(username, password) {
+  form.username = username
+  form.password = password
+  ElMessage.info(`已填入演示账号: ${username}`)
+}
 
 async function submit() {
   if (!form.username || !form.password) return ElMessage.warning('请输入用户名和密码')
@@ -126,4 +146,45 @@ async function submit() {
 }
 
 .auth-submit { width: 100%; margin-top: 6px; }
+
+.demo-account-box {
+  margin-top: 20px;
+  padding: 14px;
+  background: var(--surface-2);
+  border-radius: 12px;
+  border: 1px dashed rgba(255, 255, 255, 0.15);
+}
+.demo-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+.demo-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.demo-pill {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.demo-pill:hover {
+  background: rgba(124, 92, 255, 0.15);
+  border-color: rgba(124, 92, 255, 0.4);
+}
+.demo-pill .action {
+  font-size: 12px;
+  color: #a78bfa;
+  font-weight: 500;
+}
 </style>
