@@ -13,7 +13,7 @@ jobs:
       - name: Ping Concert Flash Sale Render Service
         run: |
           echo "Sending keepalive ping to Render at $(date)..."
-          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -m 30 "https://flash-sale.onrender.com" || echo "000")
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -m 30 "https://flash-sale-18q1.onrender.com" || echo "000")
           echo "Render response status: $STATUS_CODE"
           if [ "$STATUS_CODE" -ge 200 ] && [ "$STATUS_CODE" -lt 400 ]; then
             echo "Render service is awake and healthy!"
