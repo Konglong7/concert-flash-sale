@@ -1,0 +1,22 @@
+name: Render KeepAlive Heartbeat
+
+on:
+  schedule:
+    # 每 12 分钟发送一次心跳请求（Render 免费容器 15 分钟无请求自动休眠）
+    - cron: '*/12 * * * *'
+  workflow_dispatch:
+
+jobs:
+  heartbeat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping Concert Flash Sale Render Service
+        run: |
+          echo "Sending keepalive ping to Render at $(date)..."
+          STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" -m 30 "https://flash-sale.onrender.com" || echo "000")
+          echo "Render response status: $STATUS_CODE"
+          if [ "$STATUS_CODE" -ge 200 ] && [ "$STATUS_CODE" -lt 400 ]; then
+            echo "Render service is awake and healthy!"
+          else
+            echo "Service returned $STATUS_CODE, ping sent to wake it up."
+          fi
