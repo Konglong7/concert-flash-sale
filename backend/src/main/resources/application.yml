@@ -1,0 +1,50 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: flash-sale
+  datasource:
+    # 本机 MySQL 8，可用环境变量覆盖：MYSQL_HOST / MYSQL_PORT / MYSQL_USER / MYSQL_PASSWORD
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/flash_sale?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    redis:
+      # 本机 Redis（Windows 可用 Memurai / tporadowski redis）
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:123456}
+      timeout: 3000ms
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
+
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    # 开发期打印 SQL，压测时关闭
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    banner: false
+    db-config:
+      id-type: auto
+
+jwt:
+  # HS256 密钥，生产环境务必通过环境变量 JWT_SECRET 覆盖
+  secret: ${JWT_SECRET:FlashSaleJwtSecretKeyForHmacSha256MustBeAtLeast32BytesLong!}
+  expire-minutes: 720
+
+seckill:
+  # 支付有效期（分钟），到期未支付自动超时释放库存；测试时可调小观察超时释放
+  pay-expire-minutes: ${PAY_EXPIRE_MINUTES:5}
+  # 防刷限流：同账号在窗口期内的最大抢票请求数
+  rate-limit-count: ${RATE_LIMIT_COUNT:5}
+  rate-limit-window-seconds: ${RATE_LIMIT_WINDOW:10}
+
+logging:
+  level:
+    com.flashsale: info

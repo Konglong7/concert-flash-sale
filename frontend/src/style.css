@@ -1,0 +1,166 @@
+/* ============================================================
+   设计令牌 —— 「深夜 arenas」演唱会主题
+   深紫夜幕底 · 舞台品红 · 聚光紫 · 灯牌琥珀
+   ============================================================ */
+:root {
+  --bg: #0d0b1a;
+  --surface: #17142b;
+  --surface-2: #201c3a;
+  --line: rgba(255, 255, 255, 0.08);
+  --text: #f2effc;
+  --muted: #9a93b8;
+  --magenta: #ff3e8f;
+  --violet: #7c5cff;
+  --amber: #ffb53e;
+  --green: #3ee8a5;
+  --red: #ff6b6b;
+  --font-display: 'Bebas Neue', 'Arial Narrow', sans-serif;
+  --font-body: 'Rajdhani', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+/* Element Plus 暗色变量对齐主题 */
+html.dark {
+  --el-color-primary: #ff3e8f;
+  --el-color-primary-light-3: #ff6ca9;
+  --el-color-primary-light-5: #ff8fbd;
+  --el-color-primary-light-7: #ffb3d1;
+  --el-color-primary-light-8: #ffc6de;
+  --el-color-primary-light-9: #2a1830;
+  --el-color-primary-dark-2: #e02a78;
+  --el-bg-color: #17142b;
+  --el-bg-color-overlay: #201c3a;
+  --el-bg-color-page: #0d0b1a;
+  --el-text-color-primary: #f2effc;
+  --el-text-color-regular: #c9c3e0;
+  --el-text-color-secondary: #9a93b8;
+  --el-border-color: rgba(255, 255, 255, 0.1);
+  --el-border-color-light: rgba(255, 255, 255, 0.08);
+  --el-border-color-lighter: rgba(255, 255, 255, 0.06);
+  --el-fill-color-blank: #17142b;
+  --el-fill-color-light: #201c3a;
+  --el-fill-color: #242045;
+  --el-font-family: var(--font-body);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  color: var(--text);
+  /* 三束舞台灯光打在夜幕上 */
+  background:
+    radial-gradient(1100px 550px at 85% -10%, rgba(124, 92, 255, 0.16), transparent 60%),
+    radial-gradient(900px 500px at -10% 25%, rgba(255, 62, 143, 0.1), transparent 60%),
+    radial-gradient(700px 400px at 50% 110%, rgba(255, 181, 62, 0.06), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+::selection { background: rgba(255, 62, 143, 0.4); }
+
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 2px; }
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb { background: #2a2547; border-radius: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+
+.display { font-family: var(--font-display); letter-spacing: 0.02em; }
+
+/* ---------- 状态徽章 ---------- */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.chip.live    { color: var(--amber); border-color: rgba(255, 181, 62, 0.45); background: rgba(255, 181, 62, 0.1); }
+.chip.soon    { color: #b9a8ff; border-color: rgba(124, 92, 255, 0.45); background: rgba(124, 92, 255, 0.12); }
+.chip.ended   { color: var(--muted); border-color: var(--line); background: rgba(255, 255, 255, 0.04); }
+.chip.paid    { color: var(--green); border-color: rgba(62, 232, 165, 0.4); background: rgba(62, 232, 165, 0.08); }
+.chip.unpaid  { color: var(--amber); border-color: rgba(255, 181, 62, 0.45); background: rgba(255, 181, 62, 0.1); }
+.chip.timeout { color: var(--red); border-color: rgba(255, 107, 107, 0.4); background: rgba(255, 107, 107, 0.08); }
+
+/* ---------- 抢票按钮：灯牌脉冲 ---------- */
+.grab-btn {
+  position: relative;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--magenta), var(--violet));
+  transition: transform 0.15s ease, opacity 0.2s;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.grab-btn:hover:not(:disabled) { transform: translateY(-2px); }
+.grab-btn:active:not(:disabled) { transform: translateY(0); }
+.grab-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+  animation: none;
+  background: #2a2547;
+}
+.grab-btn.small { padding: 8px 20px; font-size: 14px; }
+
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 62, 143, 0.4); }
+  50% { box-shadow: 0 0 24px 4px rgba(255, 62, 143, 0.22); }
+}
+
+/* ---------- 票根：打孔 + 撕裂线（签名元素） ---------- */
+.ticket {
+  position: relative;
+  display: flex;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+.ticket .perf {
+  position: relative;
+  width: 0;
+  border-left: 2px dashed rgba(255, 255, 255, 0.14);
+  margin: 14px 0;
+  flex-shrink: 0;
+}
+.ticket .perf::before,
+.ticket .perf::after {
+  content: '';
+  position: absolute;
+  left: -11px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--bg);
+  border: 1px solid var(--line);
+}
+.ticket .perf::before { top: -24px; }
+.ticket .perf::after { bottom: -24px; }
+
+/* ---------- 处理中转圈 ---------- */
+.spinner {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 3px solid rgba(255, 62, 143, 0.2);
+  border-top-color: var(--magenta);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .grab-btn { animation: none; }
+  .spinner { animation-duration: 1.6s; }
+}

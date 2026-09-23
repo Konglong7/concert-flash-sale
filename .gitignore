@@ -1,0 +1,40 @@
+# IDE & Editors
+.idea/
+*.iml
+.vscode/
+*.ipr
+*.iws
+
+# Maven & Java build artifacts
+target/
+*.class
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Frontend (Node.js / Vite / Vue)
+node_modules/
+dist/
+dist-ssr/
+*.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Logs & Runtime
+*.log
+logs/
+backend/app.log
+backend/app-err.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+desktop.ini
